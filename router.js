@@ -1,14 +1,57 @@
 const router = require('express').Router()
 
+var States = [
+    "Aguascalientes",
+    "Baja California Sur",
+    "Baja California",
+    "Campeche",
+    "Chiapas",
+    "Chihuahua",
+    "Ciudad de México",
+    "Coahuila de Zaragoza",
+    "Colima",
+    "Durango",
+    "Guanajuato",
+    "Guerrero",
+    "Hidalgo",
+    "Jalisco",
+    "México",
+    "Michoacán de Ocampo",
+    "Morelos",
+    "Nayarit",
+    "Nuevo León",
+    "Oaxaca de Juárez",
+    "Puebla",
+    "Querétaro",
+    "Quintana Roo",
+    "San Luis Potosí",
+    "Sinaloa",
+    "Sonora",
+    "Tabasco",
+    "Tamaulipas",
+    "Tlaxcala",
+    "Veracruz de Ignacio de la Llave",
+    "Yucatán",
+    "Zacatecas"
+]
+
 router.get('/', (req, res) => { res.render('index', {title: 'Home', navbar: 'MX'}) })
 
 router.post('/zipcodes', (req, res) => {
 
-    var {state, city, municipality, colony} = req.body
+    var {state, zipcode, city, municipality, colony} = req.body
+
     var zipcodes = require(`${__dirname}/data/${state}.json`)
     var nameitem = Object.keys(zipcodes)[0]
     zipcodes = zipcodes[nameitem]
 
+    if(zipcode != '') {
+        zipcodes = zipcodes.filter(item => {
+            if(item.d_codigo && item.d_codigo.includes(zipcode)) return true
+            return false
+        })
+    }
+    
     if(city != '') {
         city = city.toLowerCase()
         zipcodes = zipcodes.filter(item => {
@@ -48,6 +91,40 @@ router.post('/zipcodes', (req, res) => {
         success: true,
         zipcodes: zipcodes,
         zipfilter: zipfilter
+    })
+})
+
+router.post('/zipcode', (req, res) => {
+
+    const {zipcode} = req.body
+
+    var states_json = []
+    States.forEach(state => { states_json.push(require(`${__dirname}/data/${state}.json`)) })
+
+    var zipresp = []
+
+    states_json.forEach(state_json => {
+        const state_name = Object.keys(state_json)[0]
+        state_json[state_name].forEach(itemzip => {
+            if(itemzip.d_codigo == zipcode) zipresp.push(itemzip)
+        })
+    })
+
+    var zipobject = {}
+
+    zipresp.forEach(item => {
+        if(!zipobject[item.d_codigo+'']) 
+            zipobject[item.d_codigo+''] = item
+    })
+
+    var zipfilter = []
+    var keys = Object.keys(zipobject)
+    keys.forEach(key => { zipfilter.push(zipobject[key]) })
+
+    res.send({
+        success: true,
+        zipcodes: zipresp,
+        zipfilter: zipresp[0]
     })
 })
 
