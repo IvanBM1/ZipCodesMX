@@ -1,0 +1,104 @@
+doctype html
+html(ng-app="ZipApp")
+    include includes/head.pug
+    body(ng-controller="ZipController")
+        include includes/navbar.pug
+        div(class="container")
+            br
+            div(class="row")
+                div(class="col-sm-12 col-md-3")
+                    div(class="card")
+                        div(class="card-body")
+                            h5 Buscar Codigos
+                            form(ng-submit="zipcodes.search()")
+                                div(class="form-group")
+                                    label Estado
+                                    select(class="form-control" ng-model="zipcodes.state")
+                                        option(value="Aguascalientes") Aguascalientes
+                                        option(value="Baja California Sur") Baja California Sur
+                                        option(value="Baja California") Baja California
+                                        option(value="Campeche") Campeche
+                                        option(value="Chiapas") Chiapas
+                                        option(value="Chihuahua") Chihuahua
+                                        option(value="Ciudad de México") Ciudad de México
+                                        option(value="Coahuila de Zaragoza") Coahuila de Zaragoza
+                                        option(value="Colima") Colima
+                                        option(value="Durango") Durango
+                                        option(value="Guanajuato") Guanajuato
+                                        option(value="Guerrero") Guerrero
+                                        option(value="Hidalgo") Hidalgo
+                                        option(value="Jalisco") Jalisco
+                                        option(value="México") México
+                                        option(value="Michoacán de Ocampo") Michoacán de Ocampo
+                                        option(value="Morelos") Morelos
+                                        option(value="Nayarit") Nayarit
+                                        option(value="Nuevo León") Nuevo León
+                                        option(value="Oaxaca de Juárez") Oaxaca de Juárez
+                                        option(value="Puebla") Puebla
+                                        option(value="Querétaro") Querétaro
+                                        option(value="Quintana Roo") Quintana Roo
+                                        option(value="San Luis Potosí") San Luis Potosí
+                                        option(value="Sinaloa") Sinaloa
+                                        option(value="Sonora") Sonora
+                                        option(value="Tabasco") Tabasco
+                                        option(value="Tamaulipas") Tamaulipas
+                                        option(value="Tlaxcala") Tlaxcala
+                                        option(value="Veracruz de Ignacio de la Llave") Veracruz de Ignacio de la Llave
+                                        option(value="Yucatán") Yucatán
+                                        option(value="Zacatecas") Zacatecas
+                                div(class="form-group")
+                                    label Ciudad
+                                    input(type="text" ng-model="zipcodes.city" class="form-control" placeholder="Ciudad")
+                                div(class="form-group")
+                                    label Municipio
+                                    input(type="text" ng-model="zipcodes.municipality" class="form-control" placeholder="Municipio")
+                                div(class="form-group")
+                                    label Colonia
+                                    input(type="text" ng-model="zipcodes.colony" class="form-control" placeholder="Colonia")
+                                div(class="form-group" style="display: flex; justify-content: flex-end;")
+                                    button(type="submit" class="btn btn-sm btn-info") Buscar
+                div(class="col-sm-12 col-md-9")
+                    div(class="card")
+                        div(style="display: flex; justify-content: center;")
+                            div(class="lds-ring" ng-show="zipcodes.isLoaded")
+                                div
+                                div
+                                div
+                                div
+                        div(class="card-body" ng-show="!zipcodes.isLoaded" style="max-height: 80vh; overflow: auto;")
+                            h5(style="display: flex; justify-content: space-between;") 
+                                div(ng-show="!showFilter") {{ zipcodes.data.length }} Resultados
+                                div(ng-show="showFilter") {{ zipcodes.datafilter.length }} Resultados
+                                button(class="btn btn-sm" ng-model="showFilter" ng-click="showFilter = !showFilter" ng-class="{'btn-light': !showFilter, 'btn-info': showFilter}") No repetir códigos
+                            div(class="table-responsive")
+                                table(class="table table-sm table-hover" ng-show="!showFilter")
+                                    tr
+                                        th Codigo
+                                        th Estado
+                                        th Ciudad
+                                        th Municipio
+                                        th Colonia
+                                        th Tipo
+                                    tr(ng-repeat="item in zipcodes.data")
+                                        td {{item.d_codigo}}
+                                        td {{item.d_estado}}
+                                        td {{item.d_ciudad}}
+                                        td {{item.D_mnpio}}
+                                        td {{item.d_asenta}}
+                                        td {{item.d_tipo_asenta}}
+                            div(class="table-responsive")
+                                table(class="table table-sm table-hover" ng-show="showFilter")
+                                    tr
+                                        th Codigo
+                                        th Estado
+                                        th Ciudad
+                                        th Municipio
+                                        th Colonia
+                                        th Tipo
+                                    tr(ng-repeat="item in zipcodes.datafilter")
+                                        td {{item.d_codigo}}
+                                        td {{item.d_estado}}
+                                        td {{item.d_ciudad}}
+                                        td {{item.D_mnpio}}
+                                        td {{item.d_asenta}}
+                                        td {{item.d_tipo_asenta}}
