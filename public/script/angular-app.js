@@ -9,7 +9,6 @@ app.controller('ZipController',function($scope, $http) {
         isError: false,
         error: '',
         state: 'Aguascalientes',
-        zipcode: '',
         city: '',
         municipality: '',
         colony: '',
@@ -31,7 +30,6 @@ app.controller('ZipController',function($scope, $http) {
 
         const data = {
             state:      $scope.zipcodes.state,
-            zipcode:      $scope.zipcodes.zipcode,
             city:       $scope.zipcodes.city,
             municipality:  $scope.zipcodes.municipality,
             colony:     $scope.zipcodes.colony

@@ -56,9 +56,6 @@ html(ng-app="ZipApp")
                                         option(value="Yucatán") Yucatán
                                         option(value="Zacatecas") Zacatecas
                                 div(class="form-group")
-                                    label Código Postal
-                                    input(type="text" ng-model="zipcodes.zipcode" class="form-control" placeholder="Código Postal")
-                                div(class="form-group")
                                     label Ciudad
                                     input(type="text" ng-model="zipcodes.city" class="form-control" placeholder="Ciudad")
                                 div(class="form-group")
@@ -77,7 +74,7 @@ html(ng-app="ZipApp")
                                 div
                                 div
                                 div
-                        div(class="card-body" ng-show="!zipcodes.isLoaded && !searchzip.isLoaded" style="max-height: 80vh; overflow: auto;")
+                        div(class="card-body" ng-show="!zipcodes.isLoaded && !searchzip.isLoaded" style="max-height: 91vh; overflow: auto;")
                             h5(style="display: flex; justify-content: space-between;") 
                                 div(ng-show="!showFilter") {{ zipcodes.data.length }} Resultados
                                 div(ng-show="showFilter") {{ zipcodes.datafilter.length }} Resultados

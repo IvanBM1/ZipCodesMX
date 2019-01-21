@@ -35,22 +35,15 @@ var States = [
     "Zacatecas"
 ]
 
-router.get('/', (req, res) => { res.render('index', {title: 'Home', navbar: 'MX'}) })
+router.get('/', (req, res) => { res.render('index', {title: 'Postales', navbar: 'IvanBM'}) })
 
 router.post('/zipcodes', (req, res) => {
 
-    var {state, zipcode, city, municipality, colony} = req.body
+    var {state, city, municipality, colony} = req.body
 
     var zipcodes = require(`${__dirname}/data/${state}.json`)
     var nameitem = Object.keys(zipcodes)[0]
     zipcodes = zipcodes[nameitem]
-
-    if(zipcode != '') {
-        zipcodes = zipcodes.filter(item => {
-            if(item.d_codigo && item.d_codigo.includes(zipcode)) return true
-            return false
-        })
-    }
     
     if(city != '') {
         city = city.toLowerCase()
